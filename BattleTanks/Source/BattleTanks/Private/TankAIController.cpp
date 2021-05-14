@@ -4,17 +4,6 @@
 #include "BattleTanks/Tank.h"
 #include "Kismet/GameplayStatics.h"
 
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-ATank* ATankAIController::GetPlayerTank() const
-{
-	auto PlayerPawn = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	if(!PlayerPawn) return nullptr;
-	return Cast<ATank>(PlayerPawn);
-}
 
 void ATankAIController::BeginPlay()
 {
@@ -39,3 +28,18 @@ void ATankAIController::BeginPlay()
 	}
 	
 }
+
+
+
+ATank* ATankAIController::GetControlledTank() const
+{
+	return Cast<ATank>(GetPawn());
+}
+
+ATank* ATankAIController::GetPlayerTank() const
+{
+	auto PlayerPawn = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	if(!PlayerPawn) return nullptr;
+	return Cast<ATank>(PlayerPawn);
+}
+
