@@ -1,12 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+//TODO fix the Tick() function
 
 #include "TankAIController.h"
 #include "BattleTanks/Tank.h"
 #include "Kismet/GameplayStatics.h"
 
+ATankAIController::ATankAIController()
+{
+	
+}
 
 void ATankAIController::BeginPlay()
 {
+
 	auto ControlledTank = GetControlledTank();
 	if(!ControlledTank)
 	{
@@ -26,6 +32,14 @@ void ATankAIController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("This AIController found a player tank, which is %s"), *PlayerTank->GetName());
 	}
+	
+}
+
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	
+		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
 	
 }
 
