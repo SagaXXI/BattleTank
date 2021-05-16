@@ -52,11 +52,14 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector OUT &HitLocation) con
    FVector2D ScreenLocation = FVector2D(ViewportXSize * CrosshairXLocation, ViewportYSize * CrosshairYLocation);
    //UE_LOG(LogTemp, Warning, TEXT("The crosshair location on screen is: %s"), *ScreenLocation.ToString())
    //
-   //Getting the direction, which will pass through the crosshair to the world
+   //Getting the direction, where our screen is directing in world
    FVector LookDirection;
    if(GetLookDirection(ScreenLocation, LookDirection))
    {
-      UE_LOG(LogTemp, Warning, TEXT("Your crosshair is pointing to %s in world"), *LookDirection.ToString());
+      if(GetLookVectorHitLocation(LookDirection, HitLocation))
+      {
+         UE_LOG(LogTemp, Warning, TEXT("Your crosshair is pointing to %s in world"), *HitLocation.ToString());
+      }
    }
    return true;
 }
@@ -71,4 +74,21 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
       LookDirection);
 }
 
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocation) const
+{
+   FVector StartLocation = PlayerCameraManager->GetCameraLocation();
+   FVector EndLocation = StartLocation + (LookDirection * LineTraceRange);
+   FHitResult HitResult;
+   if(GetWorld()->LineTraceSingleByChannel(
+      HitResult,
+         StartLocation,
+         EndLocation,
+         ECollisionChannel::ECC_Visibility)
+         )
+   {
+      HitLocation = HitResult.Location;
+      return true;
+   }
+   return false;
+}
 

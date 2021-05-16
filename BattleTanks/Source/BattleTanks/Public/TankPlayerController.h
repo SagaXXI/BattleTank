@@ -32,12 +32,18 @@ private:
    //Move the barrel to crosshair, like in World of Tanks
    void AimTowardsCrosshair();
 
-   //Getting the direction, which will pass through the crosshair to the world
+   //Getting the direction, where we are looking. So, basically, this will project the direction vector through our screen to world
    bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+
+   //Getting the location, where the trace, which is traced through our crosshair hits the world
+   bool GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocation) const;
    
    UPROPERTY(EditAnywhere)
    float CrosshairXLocation = 0.5f;
    
    UPROPERTY(EditAnywhere)
    float CrosshairYLocation = 0.3333f;
+
+   UPROPERTY(EditAnywhere)
+   float LineTraceRange = 1000000.f;
 };
