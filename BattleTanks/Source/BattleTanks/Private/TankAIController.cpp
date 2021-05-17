@@ -7,7 +7,8 @@
 
 ATankAIController::ATankAIController()
 {
-	
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 void ATankAIController::BeginPlay()
@@ -38,8 +39,11 @@ void ATankAIController::BeginPlay()
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+	if(GetPlayerTank())
+	{
 		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+	}
+		
 	
 }
 

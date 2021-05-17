@@ -14,7 +14,7 @@ UTankAimingComponent::UTankAimingComponent()
 }
 
 
-// Called when the game starts
+/*// Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -30,10 +30,18 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}*/
+
+void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed)
+{
+	/*auto ThisTank = GetName();
+	if(!Barrel) return;
+	auto BarrelLocation = Barrel->GetComponentLocation();
+	UE_LOG(LogTemp, Warning, TEXT("This %s is aiming at %s from %s"), *ThisTank, *WorldSpaceAim.ToString(), *BarrelLocation.ToString())
+	//UE_LOG(LogTemp, Warning, TEXT("LaunchSpeed is %f"),LaunchSpeed)*/
 }
 
-void UTankAimingComponent::AimAt(FVector WorldSpaceAim)
+void UTankAimingComponent::SetBarrelComponent(UStaticMeshComponent* BarrelToSet)
 {
-	auto ThisTank = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("This %s is aiming at %s"), *ThisTank, *WorldSpaceAim.ToString())
+	Barrel = BarrelToSet;
 }
