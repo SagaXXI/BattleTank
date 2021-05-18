@@ -2,6 +2,7 @@
 
 
 #include "TankAimingComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -32,16 +33,47 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }*/
 
-void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	/*auto ThisTank = GetName();
+	/*auto BarrelLocation = Barrel->GetComponentLocation();
+	UE_LOG(LogTemp, Warning, TEXT("This %s is aiming at %s from %s"), *ThisTank, *WorldSpaceAim.ToString(), *BarrelLocation.ToString())*/
 	if(!Barrel) return;
-	auto BarrelLocation = Barrel->GetComponentLocation();
-	UE_LOG(LogTemp, Warning, TEXT("This %s is aiming at %s from %s"), *ThisTank, *WorldSpaceAim.ToString(), *BarrelLocation.ToString())
-	//UE_LOG(LogTemp, Warning, TEXT("LaunchSpeed is %f"),LaunchSpeed)*/
+	
+	//Velocity, that will be set
+	FVector OutLaunchVelocity;
+	FVector StartPoint = Barrel->GetSocketLocation(TEXT("Projectile"));
+	
+	//Calculates an launch velocity for a projectile to hit a specified point.
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
+		GetWorld(),
+		OutLaunchVelocity,
+		StartPoint,
+		HitLocation,
+		LaunchSpeed,
+		ESuggestProjVelocityTraceOption::DoNotTrace
+		);
+	if(bHaveAimSolution)
+	{
+		auto TankName = GetOwner()->GetName();
+		//Turns this OutLaunchVelocity vector to a normal vector (a unit vector, that equals to 1 with direction)
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *TankName, *AimDirection.ToString())
+		MoveBarrel(AimDirection);
+		
+	} 
+	
+	
 }
 
 void UTankAimingComponent::SetBarrelComponent(UStaticMeshComponent* BarrelToSet)
 {
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::MoveBarrel(FVector AimDirection)
+{
+	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator is %s"), *AimAsRotator.ToString())
+	UE_LOG(LogTemp, Warning, TEXT("BarrelRotation is %s"), *BarrelRotation.ToString())
 }
