@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
+#include "TankBarrel.h"
 #include "Tank.h"
 #include "TankAimingComponent.h"
 
@@ -39,7 +38,7 @@ void ATank::AimAt(FVector AimLocation)
 	AimComp->AimAt(AimLocation, LaunchSpeed);
 }
 
-void ATank::SetBarrelComponent(UStaticMeshComponent* BarrelToSet)
+void ATank::SetBarrelComponent(UTankBarrel* BarrelToSet)
 {
 	AimComp->SetBarrelComponent(BarrelToSet);
 }

@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
 #include "TankAimingComponent.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
 class UTankAimingComponent;
+class UTankBarrel;
+
 UCLASS()
 class BATTLETANKS_API ATank : public APawn
 {
@@ -27,7 +28,7 @@ public:
 	void AimAt(FVector AimLocation);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetBarrelComponent(UStaticMeshComponent* BarrelToSet);
+	void SetBarrelComponent(UTankBarrel* BarrelToSet);
 	
 protected:
 	// Called when the game starts or when spawned
