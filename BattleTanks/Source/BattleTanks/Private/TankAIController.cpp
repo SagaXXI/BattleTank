@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-//TODO fix the Tick() function
+//TODO fix the Tick() function 
 
 #include "TankAIController.h"
 #include "BattleTanks/Tank.h"
@@ -9,6 +9,8 @@ ATankAIController::ATankAIController()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
+	
 }
 
 void ATankAIController::BeginPlay()
@@ -38,7 +40,9 @@ void ATankAIController::BeginPlay()
 
 void ATankAIController::Tick(float DeltaTime)
 {
+	
 	Super::Tick(DeltaTime);
+	UE_LOG(LogTemp, Warning, TEXT("Ticking"))
 	if(GetPlayerTank())
 	{
 		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());

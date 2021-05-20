@@ -11,6 +11,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bStartWithTickEnabled = true;
 
 	// ...
 }
@@ -24,15 +25,15 @@ void UTankAimingComponent::BeginPlay()
 	// ...
 	
 }
+*/
 
-
-// Called every frame
+//Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
-}*/
+}
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
@@ -45,23 +46,30 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	FVector StartPoint = Barrel->GetSocketLocation(TEXT("Projectile"));
 	
 	//Calculates an launch velocity for a projectile to hit a specified point.
-	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
+	bool bHasAimSolution = UGameplayStatics::SuggestProjectileVelocity(
 		GetWorld(),
 		OutLaunchVelocity,
 		StartPoint,
 		HitLocation,
 		LaunchSpeed,
+		false,
+		0,
+		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 		);
-	if(bHaveAimSolution)
+	if(bHasAimSolution)
 	{
-		auto TankName = GetOwner()->GetName();
 		//Turns this OutLaunchVelocity vector to a normal vector (a unit vector, that equals to 1 with direction)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *TankName, *AimDirection.ToString())
 		MoveBarrelTowards(AimDirection);
-		
-	} 
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("At %f Aim solution is found"), Time)
+	}
+	else
+	{
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("At %f Aim solution is not found"), Time)
+	}
 	
 	
 }

@@ -6,6 +6,9 @@
 
 void ATankPlayerController::BeginPlay()
 {
+   PrimaryActorTick.bCanEverTick = true;
+   PrimaryActorTick.bStartWithTickEnabled = true;
+   
    auto ControlledTank = GetControlledTank();
    if(!ControlledTank)
    {
@@ -22,6 +25,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 {
    Super::Tick(DeltaTime);
    AimTowardsCrosshair();
+   // UE_LOG(LogTemp, Warning, TEXT("Ticking"))
 
 }
 

@@ -15,7 +15,8 @@ class BATTLETANKS_API UTankBarrel : public UStaticMeshComponent
 	GENERATED_BODY()
 
 public:
-	void Elevate(float Degrees);
+	//If barrel is moving down, the value will be -1, if it is moving up, the value will be +1
+	void Elevate(float RelativeSpeed);
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Setup")
