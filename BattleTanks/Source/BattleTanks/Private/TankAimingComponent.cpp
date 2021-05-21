@@ -37,8 +37,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	/*auto BarrelLocation = Barrel->GetComponentLocation();
-	UE_LOG(LogTemp, Warning, TEXT("This %s is aiming at %s from %s"), *ThisTank, *WorldSpaceAim.ToString(), *BarrelLocation.ToString())*/
+	
 	if(!Barrel) return;
 	
 	//Velocity, that will be set
@@ -57,11 +56,20 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 		);
+	//Debugging shit
+	//UE_LOG(LogTemp, Warning, TEXT("%s"), ( bHasAimSolution ? TEXT("true") : TEXT("false")));
+
 	if(bHasAimSolution)
 	{
 		//Turns this OutLaunchVelocity vector to a normal vector (a unit vector, that equals to 1 with direction)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
+		auto BarrelLocation = Barrel->GetComponentLocation();
+		
+		//Debugging shit
+		/*auto ThisTank = GetOwner()->GetName();
+		UE_LOG(LogTemp, Warning, TEXT("This %s aiming at %s from %s"), *ThisTank, *AimDirection.ToString(), *BarrelLocation.ToString())*/
+		
 		auto Time = GetWorld()->GetTimeSeconds();
 		UE_LOG(LogTemp, Warning, TEXT("At %f Aim solution is found"), Time)
 	}
@@ -70,7 +78,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		auto Time = GetWorld()->GetTimeSeconds();
 		UE_LOG(LogTemp, Warning, TEXT("At %f Aim solution is not found"), Time)
 	}
-	
 	
 }
 
@@ -83,7 +90,10 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
-	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator is %s"), *AimAsRotator.ToString())
-	UE_LOG(LogTemp, Warning, TEXT("BarrelRotation is %s"), *BarrelRotation.ToString())
+	
+	//Debugging shit
+	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator is %s"), *AimAsRotator.ToString())
+	//UE_LOG(LogTemp, Warning, TEXT("BarrelRotation is %s"), *BarrelRotation.ToString())
+	
 	Barrel->Elevate(5.f);
 }
