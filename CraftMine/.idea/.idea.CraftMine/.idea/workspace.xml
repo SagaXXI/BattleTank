@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="47e149da-51fa-4b7b-8616-e32f4f9ae098" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../BattleTanks/Content/UI/WBP_UI.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BattleTanks/Content/Blueprints/BP_TankPlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/../BattleTanks/Content/Blueprints/BP_TankPlayerController.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BattleTanks/Content/Maps/LowPoly.umap" beforeDir="false" afterPath="$PROJECT_DIR$/../BattleTanks/Content/Maps/LowPoly.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BattleTanks/Content/Maps/MainMenu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/../BattleTanks/Content/Maps/MainMenu.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BattleTanks/Content/Tank/BP_Tank.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/../BattleTanks/Content/Tank/BP_Tank.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BattleTanks/Content/UI/WBP_MainMenu.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/../BattleTanks/Content/UI/WBP_MainMenu.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BattleTanks/Content/UI/WBP_PlayerUI.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/../BattleTanks/Content/UI/WBP_PlayerUI.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BattleTanks/Source/BattleTanks/Private/TankAimingComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../BattleTanks/Source/BattleTanks/Private/TankAimingComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BattleTanks/Source/BattleTanks/Private/TankBarrel.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../BattleTanks/Source/BattleTanks/Private/TankBarrel.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BattleTanks/Source/BattleTanks/Public/TankBarrel.h" beforeDir="false" afterPath="$PROJECT_DIR$/../BattleTanks/Source/BattleTanks/Public/TankBarrel.h" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1ssPrTNjNm8Hlmfso9QzdXDfevn" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <created>1621658527981</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1621658527981</updated>
+      <workItem from="1621658533002" duration="11000" />
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>

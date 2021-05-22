@@ -90,10 +90,14 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
+	//This gets the right rotator for elevate function. AimDirection, which we are looking now in game minus barrel's current rotation
+	auto DeltaRotation = AimAsRotator - BarrelRotation;
 	
 	//Debugging shit
 	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator is %s"), *AimAsRotator.ToString())
 	//UE_LOG(LogTemp, Warning, TEXT("BarrelRotation is %s"), *BarrelRotation.ToString())
-	
-	Barrel->Elevate(5.f);
+
+	//If pitch has minus value, speed will be -1
+	//If pitch has plus value, speed will be +1
+	Barrel->Elevate(DeltaRotation.Pitch);
 }
