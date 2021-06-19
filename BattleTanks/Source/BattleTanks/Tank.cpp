@@ -3,7 +3,9 @@
 #include "Tank.h"
 #include "TankAimingComponent.h"
 
-// Sets default values
+//TODO check aim towards crosshair in player controller
+
+//Sets default values
 ATank::ATank()
 {
  	//Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -26,5 +28,6 @@ void ATank::AimAt(FVector AimLocation)
 
 void ATank::SetBarrelComponent(UTankBarrel* BarrelToSet)
 {
+	//Setting barrel mesh component to rotate when aiming
 	AimComp->SetBarrelComponent(BarrelToSet);
 }

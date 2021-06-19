@@ -37,7 +37,6 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	
 	if(!Barrel) return;
 	
 	//Velocity, that will be set
@@ -71,12 +70,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		UE_LOG(LogTemp, Warning, TEXT("This %s aiming at %s from %s"), *ThisTank, *AimDirection.ToString(), *BarrelLocation.ToString())*/
 		
 		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("At %f Aim solution is found"), Time)
+		//UE_LOG(LogTemp, Warning, TEXT("At %f Aim solution is found"), Time)
 	}
 	else
 	{
 		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("At %f Aim solution is not found"), Time)
+		//UE_LOG(LogTemp, Warning, TEXT("At %f Aim solution is not found"), Time)
 	}
 	
 }
@@ -88,6 +87,7 @@ void UTankAimingComponent::SetBarrelComponent(UTankBarrel* BarrelToSet)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
+	//Getting delta rotator between barrel forward vector and aim direction, because to rotate it, we need delta vector, like in FindLookAtLocation()
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	//This gets the right rotator for elevate function. AimDirection, which we are looking now in game minus barrel's current rotation
@@ -97,6 +97,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator is %s"), *AimAsRotator.ToString())
 	//UE_LOG(LogTemp, Warning, TEXT("BarrelRotation is %s"), *BarrelRotation.ToString())
 
+	//Elevating barrel up	
 	//If pitch has minus value, speed will be -1
 	//If pitch has plus value, speed will be +1
 	Barrel->Elevate(DeltaRotation.Pitch);

@@ -29,10 +29,11 @@ private:
    //Returns true if we hit a landscape
    bool GetSightRayHitLocation(FVector &OutHitLocation) const;
 
-   //Move the barrel to crosshair, like in World of Tanks
+   //Move the barrel to crosshair, like in World of Tanks. And it happens every frame.
    void AimTowardsCrosshair();
-
+   
    //Getting the direction, where we are looking. So, basically, this will project the direction vector through our screen to world
+   //Projecting camera view to world
    bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 
    //Getting the location, where the trace, which is traced through our crosshair hits the world

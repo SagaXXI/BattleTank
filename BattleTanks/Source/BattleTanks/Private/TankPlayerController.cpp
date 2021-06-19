@@ -36,10 +36,11 @@ ATank* ATankPlayerController::GetControlledTank() const
 void ATankPlayerController::AimTowardsCrosshair()
 {
    if(!GetControlledTank()) return;
-
+   
    //This is OUTPARAMETER 
    FVector HitLocation;
-   if(GetSightRayHitLocation(HitLocation))
+   
+   if(GetSightRayHitLocation(OUT HitLocation))
    {
       GetControlledTank()->AimAt(HitLocation);
       //UE_LOG(LogTemp, Warning, TEXT("The hit location is: %s"), *HitLocation.ToString())
@@ -52,15 +53,18 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector OUT &HitLocation) con
    //Getting viewport size
    int32 ViewportXSize, ViewportYSize;
    GetViewportSize(ViewportXSize, ViewportYSize);
+   
    //Getting crosshair location on screen, with size
    FVector2D ScreenLocation = FVector2D(ViewportXSize * CrosshairXLocation, ViewportYSize * CrosshairYLocation);
-   //UE_LOG(LogTemp, Warning, TEXT("The crosshair location on screen is: %s"), *ScreenLocation.ToString())
-   //
+   
    //Getting the direction, where our screen is directing in world
    FVector LookDirection;
-   if(GetLookDirection(ScreenLocation, LookDirection))
+   
+   //Projecting crosshair location to screen and getting the look direction, for linetrace
+   if(GetLookDirection(ScreenLocation, OUT LookDirection))
    {
-      if(GetLookVectorHitLocation(LookDirection, HitLocation))
+      //Doing line trace and getting hit location
+      if(GetLookVectorHitLocation(LookDirection, OUT HitLocation))
       {
          //UE_LOG(LogTemp, Warning, TEXT("Your crosshair is pointing to %s in world"), *HitLocation.ToString());
       }
@@ -69,7 +73,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector OUT &HitLocation) con
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
-{
+{  
    FVector CameraWorldLocation;
    return DeprojectScreenPositionToWorld
    (ScreenLocation.X,

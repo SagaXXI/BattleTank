@@ -6,7 +6,7 @@
 void UTankBarrel::Elevate(float RelativeSpeed)
 {
 	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("At %f barrel elevated with %f speed"), Time, RelativeSpeed)
+	//UE_LOG(LogTemp, Warning, TEXT("At %f barrel elevated with %f speed"), Time, RelativeSpeed)
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, +1);
 	
 	//This is where we calculate our elevation from the position before.
