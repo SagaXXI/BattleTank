@@ -89,13 +89,19 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	//Getting delta rotator between barrel forward vector and aim direction, because to rotate it, we need delta vector, like in FindLookAtLocation()
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDirection.Rotation();
+	FRotator AimAsRotator = AimDirection.Rotation();
 	//This gets the right rotator for elevate function. AimDirection, which we are looking now in game minus barrel's current rotation
-	auto DeltaRotation = AimAsRotator - BarrelRotation;
+	FRotator DeltaRotation = AimAsRotator - BarrelRotation;
 	
 	//Debugging shit
-	//UE_LOG(LogTemp, Warning, TEXT("AimAsRotator is %s"), *AimAsRotator.ToString())
-	//UE_LOG(LogTemp, Warning, TEXT("BarrelRotation is %s"), *BarrelRotation.ToString())
+	/*APawn* PlayerPawn = Cast<APawn>(GetOwner());
+	if(PlayerPawn->IsPlayerControlled())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AimAsRotator is %s"), *AimAsRotator.ToString())
+		UE_LOG(LogTemp, Warning, TEXT("BarrelRotation is %s"), *BarrelRotation.ToString())
+		UE_LOG(LogTemp, Warning, TEXT("DeltaRotation is %s"), *DeltaRotation.ToString())
+	}*/
+	
 
 	//Elevating barrel up	
 	//If pitch has minus value, speed will be -1

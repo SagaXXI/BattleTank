@@ -3,7 +3,7 @@
 #include "Tank.h"
 #include "TankAimingComponent.h"
 
-//TODO check aim towards crosshair in player controller
+
 
 //Sets default values
 ATank::ATank()
