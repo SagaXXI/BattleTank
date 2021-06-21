@@ -4,6 +4,7 @@
 #include "TankAimingComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -38,12 +39,14 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if(!Barrel) return;
+	if(!Turret) return;
 	
 	//Velocity, that will be set
 	FVector OutLaunchVelocity;
 	FVector StartPoint = Barrel->GetSocketLocation(TEXT("Projectile"));
 	
 	//Calculates an launch velocity for a projectile to hit a specified point.
+	//This is done for precise shooting
 	bool bHasAimSolution = UGameplayStatics::SuggestProjectileVelocity(
 		GetWorld(),
 		OutLaunchVelocity,
@@ -85,6 +88,11 @@ void UTankAimingComponent::SetBarrelComponent(UTankBarrel* BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::SetTurretComponent(UTankTurret* TurretToSet)
+{
+	Turret = TurretToSet;
+}
+
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	//Getting delta rotator between barrel forward vector and aim direction, because to rotate it, we need delta vector, like in FindLookAtLocation()
@@ -102,9 +110,10 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 		UE_LOG(LogTemp, Warning, TEXT("DeltaRotation is %s"), *DeltaRotation.ToString())
 	}*/
 	
-
 	//Elevating barrel up	
 	//If pitch has minus value, speed will be -1
 	//If pitch has plus value, speed will be +1
 	Barrel->Elevate(DeltaRotation.Pitch);
+
+	Turret->Rotate(DeltaRotation.Yaw);
 }

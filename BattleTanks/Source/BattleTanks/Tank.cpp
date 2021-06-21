@@ -31,3 +31,8 @@ void ATank::SetBarrelComponent(UTankBarrel* BarrelToSet)
 	//Setting barrel mesh component to rotate when aiming
 	AimComp->SetBarrelComponent(BarrelToSet);
 }
+
+void ATank::SetTurretComponent(UTankTurret* TurretToSet)
+{
+	AimComp->SetTurretComponent(TurretToSet);
+}

@@ -39,7 +39,8 @@ void ATankPlayerController::AimTowardsCrosshair()
    
    //This is OUTPARAMETER 
    FVector HitLocation;
-   
+
+   //If ray which we are tracing hits something, then we are going to turn the turret and elevate the tank barrel
    if(GetSightRayHitLocation(OUT HitLocation))
    {
       GetControlledTank()->AimAt(HitLocation);
