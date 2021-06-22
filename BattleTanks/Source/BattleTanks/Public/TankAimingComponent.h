@@ -40,5 +40,5 @@ private:
 	UTankBarrel* Barrel;
 
 	void MoveBarrelTowards(FVector AimDirection);
-	
+
 };

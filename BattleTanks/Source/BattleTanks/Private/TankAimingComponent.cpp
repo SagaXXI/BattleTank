@@ -95,11 +95,18 @@ void UTankAimingComponent::SetTurretComponent(UTankTurret* TurretToSet)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	//Getting delta rotator between barrel forward vector and aim direction, because to rotate it, we need delta vector, like in FindLookAtLocation()
+	//We need to keep BarrelRotation and TurretRotation separate from each other, because if we don't, turret rotation will be depending on barrel's rotation.
+	//For example, if barrel looks down, turret will be moving opposite to its real direction, because its speed will be -1, like barrel's speed
+	
+	//Getting delta rotator between barrel forward vector and aim direction, turret forward vector and aim direction,
+	//because to rotate them, we need delta vector, like in FindLookAtLocation()
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
+	FRotator TurretRotation = Turret->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
-	//This gets the right rotator for elevate function. AimDirection, which we are looking now in game minus barrel's current rotation
-	FRotator DeltaRotation = AimAsRotator - BarrelRotation;
+	//These will get the right rotator for elevate and rotatte function. AimDirection, which we are looking now in game minus barrel's or turret's current rotation
+	FRotator DeltaBarrelRotation = AimAsRotator - BarrelRotation;
+	FRotator DeltaTurretRotation = AimAsRotator - TurretRotation;
+	
 	
 	//Debugging shit
 	/*APawn* PlayerPawn = Cast<APawn>(GetOwner());
@@ -113,7 +120,9 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//Elevating barrel up	
 	//If pitch has minus value, speed will be -1
 	//If pitch has plus value, speed will be +1
-	Barrel->Elevate(DeltaRotation.Pitch);
-
-	Turret->Rotate(DeltaRotation.Yaw);
+	Turret->Rotate(DeltaTurretRotation.Yaw);
+	//Rotating turret	
+	//If yaw has minus value, speed will be -1
+	//If yaw has plus value, speed will be +1
+	Barrel->Elevate(DeltaBarrelRotation.Pitch);
 }

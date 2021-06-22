@@ -9,24 +9,32 @@ void UTankTurret::Rotate(float RelativeSpeed)
 	
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, 1);
 	
+	
+	
 	//This is where we calculate our elevation from the position before.
 	//(DeltaTimeSeconds is for delay between frames, to avoid the slower or faster function running on different machines)
 	auto RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
 	
+	
 	//Raw elevation, which is not clamped yet
-	auto RawNewRotation = GetRelativeRotation().Pitch + RotationChange;
+	auto RawNewRotation = GetRelativeRotation().Yaw + RotationChange;
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *GetRelativeRotation().ToString())
 	
+	
 	//Clamped current relative rotation + elevation change 
-	auto Rotation = FMath::Clamp<float>(RawNewRotation, MinRotationDegrees, MaxRotationDegrees);
-	/*APawn* PlayerPawn = Cast<APawn>(GetOwner());
+	//auto Rotation = FMath::Clamp<float>(RawNewRotation, MinRotationDegrees, MaxRotationDegrees);
+	APawn* PlayerPawn = Cast<APawn>(GetOwner());
 	if(PlayerPawn->IsPlayerControlled())
 	{
-	UE_LOG(LogTemp, Warning, TEXT("%f"), Elevation)
-	UE_LOG(LogTemp, Warning, TEXT("At %f barrel elevated with %f speed"), Time, RelativeSpeed)
-	}*/
+		UE_LOG(LogTemp, Warning, TEXT("%f"), RelativeSpeed);
+		//UE_LOG(LogTemp, Warning, TEXT("%f"), RawNewRotation)
+		//UE_LOG(LogTemp, Warning, TEXT("%f"), Rotation)
+		//UE_LOG(LogTemp, Warning, TEXT("At %f barrel elevated with %f speed"), Time, RelativeSpeed)
+	}
 	
 	
 	//Sets the rotation of the component relative to its parent
-	SetRelativeRotation(FRotator(0, Rotation, 0));
+	SetRelativeRotation(FRotator(0, RawNewRotation, 0));
 }
+
+
