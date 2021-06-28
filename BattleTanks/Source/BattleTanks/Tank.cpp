@@ -36,3 +36,9 @@ void ATank::SetTurretComponent(UTankTurret* TurretToSet)
 {
 	AimComp->SetTurretComponent(TurretToSet);
 }
+
+void ATank::Fire()
+{
+	auto Time = GetWorld()->GetTimeSeconds();
+	UE_LOG(LogTemp, Warning, TEXT("Firing at %f"), Time)
+}

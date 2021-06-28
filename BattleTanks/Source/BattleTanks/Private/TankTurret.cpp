@@ -3,38 +3,24 @@
 
 #include "TankTurret.h"
 
+//TODO fix the issue with the -180 and 180 degrees
+//You need to convert it to 360 degrees system
+
 void UTankTurret::Rotate(float RelativeSpeed)
 {
-	auto Time = GetWorld()->GetTimeSeconds();
+	float Time = GetWorld()->GetTimeSeconds();
 	
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, 1);
 	
-	
-	
 	//This is where we calculate our elevation from the position before.
 	//(DeltaTimeSeconds is for delay between frames, to avoid the slower or faster function running on different machines)
-	auto RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
-	
+	float RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
 	
 	//Raw elevation, which is not clamped yet
-	auto RawNewRotation = GetRelativeRotation().Yaw + RotationChange;
-	//UE_LOG(LogTemp, Warning, TEXT("%s"), *GetRelativeRotation().ToString())
-	
-	
-	//Clamped current relative rotation + elevation change 
-	//auto Rotation = FMath::Clamp<float>(RawNewRotation, MinRotationDegrees, MaxRotationDegrees);
-	APawn* PlayerPawn = Cast<APawn>(GetOwner());
-	if(PlayerPawn->IsPlayerControlled())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%f"), RelativeSpeed);
-		//UE_LOG(LogTemp, Warning, TEXT("%f"), RawNewRotation)
-		//UE_LOG(LogTemp, Warning, TEXT("%f"), Rotation)
-		//UE_LOG(LogTemp, Warning, TEXT("At %f barrel elevated with %f speed"), Time, RelativeSpeed)
-	}
-	
+	float Rotation = GetRelativeRotation().Yaw + RotationChange;
 	
 	//Sets the rotation of the component relative to its parent
-	SetRelativeRotation(FRotator(0, RawNewRotation, 0));
+	SetWorldRotation(FRotator(0, Rotation, 0));
 }
 
 
