@@ -10,6 +10,8 @@
 class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
+
 
 UCLASS()
 class BATTLETANKS_API ATank : public APawn
@@ -33,10 +35,18 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
+	
 private:
+	
 	UTankAimingComponent* AimComp;
 
 	UPROPERTY(EditAnywhere, Category = "Projectile")
 	float LaunchSpeed = 4000.f;
+
+	UPROPERTY(EditAnywhere, Category = "Projectile")
+	TSubclassOf<AProjectile> ProjectileToSpawn;
+
+	//Pointer to barrel for spawning a projectile
+	UTankBarrel* Barrel;
 	
 };

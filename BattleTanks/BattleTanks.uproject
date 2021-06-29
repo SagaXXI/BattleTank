@@ -17,7 +17,7 @@
 	"Plugins": [
 		{
 			"Name": "EditorDiscordRichPresence",
-			"Enabled": false
+			"Enabled": true
 		}
 	]
 }

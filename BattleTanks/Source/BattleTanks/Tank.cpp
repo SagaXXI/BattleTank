@@ -2,7 +2,7 @@
 #include "TankBarrel.h"
 #include "Tank.h"
 #include "TankAimingComponent.h"
-
+#include "Projectile.h"
 
 
 //Sets default values
@@ -30,6 +30,7 @@ void ATank::SetBarrelComponent(UTankBarrel* BarrelToSet)
 {
 	//Setting barrel mesh component to rotate when aiming
 	AimComp->SetBarrelComponent(BarrelToSet);
+	Barrel = BarrelToSet;
 }
 
 void ATank::SetTurretComponent(UTankTurret* TurretToSet)
@@ -41,4 +42,15 @@ void ATank::Fire()
 {
 	auto Time = GetWorld()->GetTimeSeconds();
 	UE_LOG(LogTemp, Warning, TEXT("Firing at %f"), Time)
+
+	if(!Barrel) return;
+
+	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileToSpawn, Barrel->GetSocketLocation(FName("Projectile")),
+		Barrel->GetSocketRotation(FName("Projectile")));
+
+	if(Projectile)
+	{
+		Projectile->LaunchProjectile(LaunchSpeed);
+	}
+	
 }
