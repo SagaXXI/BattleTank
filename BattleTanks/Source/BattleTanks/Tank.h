@@ -40,10 +40,10 @@ private:
 	
 	UTankAimingComponent* AimComp;
 
-	UPROPERTY(EditAnywhere, Category = "Projectile")
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 	float LaunchSpeed = 4000.f;
 
-	UPROPERTY(EditAnywhere, Category = "Projectile")
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 	TSubclassOf<AProjectile> ProjectileToSpawn;
 
 	//Pointer to barrel for spawning a projectile

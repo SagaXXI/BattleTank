@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-//TODO fix the Tick() function 
+//TODO check why AI tanks are not aiming at player tank
 
 #include "TankAIController.h"
 #include "BattleTanks/Tank.h"
@@ -16,21 +16,21 @@ ATankAIController::ATankAIController()
 void ATankAIController::BeginPlay()
 {
    Super::BeginPlay();
+   //Getting controlled tank by this AI controller
+   ControlledTank = Cast<ATank>(GetPawn());
+   //Getting player's tank
+   PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
    Super::Tick(DeltaTime);
    //Don't know why we are doing it in tick, but in course it was like this. Maybe change it or smth.
-   //6:42 in course
-   //Getting controlled tank by this AI controller
-   ATank* ControlledTank = Cast<ATank>(GetPawn());
-   //Getting player's tank
-   ATank* PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+ 
    //Checking if AI tank is reloaded
    bool IsReloaded = (GetWorld()->GetTimeSeconds() - LastTimeFired) >= ReloadDelay;
    
-   if(PlayerTank && IsReloaded)
+   if(PlayerTank && IsReloaded && ControlledTank)
    {
       ControlledTank->AimAt(PlayerTank->GetActorLocation());
       ControlledTank->Fire();

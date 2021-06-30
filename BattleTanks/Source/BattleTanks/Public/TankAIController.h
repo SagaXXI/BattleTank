@@ -32,6 +32,11 @@ private:
 
 	//When AI tank fired last time
 	float LastTimeFired = 0.f;
+	
+	//Getting controlled tank by this AI controller
+	ATank* ControlledTank = nullptr;
+	//Getting player's tank
+	ATank* PlayerTank = nullptr;
    
 };
 
