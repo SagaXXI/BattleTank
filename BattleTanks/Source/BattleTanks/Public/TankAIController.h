@@ -22,13 +22,16 @@ public:
    virtual void Tick(float DeltaTime) override;
    
    ATankAIController();
-   
-   ATank* GetControlledTank() const;
+	
+private:
 
-   ATank* GetPlayerTank() const;
-   
-   
-   
+	//Reloading mechanics
+	//Reloading delay for tank
+	UPROPERTY(EditAnywhere)
+	float ReloadDelay = 3.f;
+
+	//When AI tank fired last time
+	float LastTimeFired = 0.f;
    
 };
 

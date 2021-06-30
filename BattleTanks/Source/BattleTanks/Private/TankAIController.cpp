@@ -16,44 +16,27 @@ ATankAIController::ATankAIController()
 void ATankAIController::BeginPlay()
 {
    Super::BeginPlay();
-   auto ControlledTank = GetControlledTank();
-   if(!ControlledTank)
-   {
-      UE_LOG(LogTemp, Error, TEXT("This AIController currently is not possesing any pawn!"));
-   }
-   else
-   {
-      UE_LOG(LogTemp, Warning, TEXT("This AIController is possesing: %s"), *ControlledTank->GetName());
-   }
-
-   auto PlayerTank = GetPlayerTank();
-   if(!PlayerTank)
-   {
-      UE_LOG(LogTemp, Error, TEXT("This AIController didn't find the PlayerTank!"));
-   }
-   else
-   {
-      UE_LOG(LogTemp, Warning, TEXT("This AIController found a player tank, which is %s"), *PlayerTank->GetName());
-   }
 }
 
 void ATankAIController::Tick(float DeltaTime)
-{ 
+{
    Super::Tick(DeltaTime);
-   if(GetPlayerTank())
+   //Don't know why we are doing it in tick, but in course it was like this. Maybe change it or smth.
+   //6:42 in course
+   //Getting controlled tank by this AI controller
+   ATank* ControlledTank = Cast<ATank>(GetPawn());
+   //Getting player's tank
+   ATank* PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+   //Checking if AI tank is reloaded
+   bool IsReloaded = (GetWorld()->GetTimeSeconds() - LastTimeFired) >= ReloadDelay;
+   
+   if(PlayerTank && IsReloaded)
    {
-      GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+      ControlledTank->AimAt(PlayerTank->GetActorLocation());
+      ControlledTank->Fire();
+
+      //Last time AI tank fired
+      LastTimeFired = GetWorld()->GetTimeSeconds();
    }
 }
-
-ATank* ATankAIController::GetControlledTank() const
-{
-   return Cast<ATank>(GetPawn());
-}
-
-ATank* ATankAIController::GetPlayerTank() const
-{
-   auto PlayerPawn = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-   if(!PlayerPawn) return nullptr;
-   return Cast<ATank>(PlayerPawn);
-}
+      
