@@ -1,5 +1,4 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-//TODO check why AI tanks are not aiming at player tank
 
 #include "TankAIController.h"
 #include "BattleTanks/Tank.h"
@@ -29,14 +28,18 @@ void ATankAIController::Tick(float DeltaTime)
  
    //Checking if AI tank is reloaded
    bool IsReloaded = (GetWorld()->GetTimeSeconds() - LastTimeFired) >= ReloadDelay;
-   
-   if(PlayerTank && IsReloaded && ControlledTank)
+
+   if(PlayerTank && ControlledTank)
    {
       ControlledTank->AimAt(PlayerTank->GetActorLocation());
-      ControlledTank->Fire();
 
-      //Last time AI tank fired
-      LastTimeFired = GetWorld()->GetTimeSeconds();
+      if(IsReloaded)
+      {
+         ControlledTank->Fire();
+
+         //Last time AI tank fired
+         LastTimeFired = GetWorld()->GetTimeSeconds();
+      }
    }
 }
       

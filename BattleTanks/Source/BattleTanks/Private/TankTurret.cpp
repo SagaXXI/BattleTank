@@ -3,8 +3,6 @@
 
 #include "TankTurret.h"
 
-//TODO fix the issue with the -180 and 180 degrees
-//You need to convert it to 360 degrees system
 
 void UTankTurret::Rotate(float RelativeSpeed)
 {
