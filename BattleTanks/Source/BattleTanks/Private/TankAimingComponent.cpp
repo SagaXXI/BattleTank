@@ -80,14 +80,22 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//because to rotate them, we need delta vector, like in FindLookAtLocation()
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
-	//These will get the right rotator for elevate and rotatte function. AimDirection, which we are looking now in game minus barrel's or turret's current rotation
+	//These will get the right rotator for elevate and rotate function. AimDirection, which we are looking now in game minus barrel's or turret's current rotation
 	FRotator DeltaRotation = AimAsRotator - BarrelRotation;
 	
 	
 	//Elevating barrel up	
 	//If pitch has minus value, speed will be -1
 	//If pitch has plus value, speed will be +1
-	Turret->Rotate(DeltaRotation.Yaw);
+	//This will help us avoid the -180 and 180 degrees clamp on tank turret
+	if (FMath::Abs(DeltaRotation.Yaw) < 180)
+	{
+		Turret->Rotate(DeltaRotation.Yaw);
+	}
+	else // Avoid going the long-way round
+	{
+	Turret->Rotate(-DeltaRotation.Yaw);
+	}
 	//Rotating turret	
 	//If yaw has minus value, speed will be -1
 	//If yaw has plus value, speed will be +1
