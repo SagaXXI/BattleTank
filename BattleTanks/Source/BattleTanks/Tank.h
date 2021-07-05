@@ -11,6 +11,7 @@ class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
 class AProjectile;
+class UTankMovementComponent;
 
 
 UCLASS()
@@ -38,7 +39,7 @@ public:
 	
 private:
 	
-	UTankAimingComponent* AimComp;
+	
 
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 	float LaunchSpeed = 4000.f;
@@ -48,5 +49,11 @@ private:
 
 	//Pointer to barrel for spawning a projectile
 	UTankBarrel* Barrel;
+
+protected:
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* TankMoveComp = nullptr;
+
+	UTankAimingComponent* AimComp = nullptr;
 	
 };
