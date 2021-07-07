@@ -37,6 +37,10 @@ private:
 	ATank* ControlledTank = nullptr;
 	//Getting player's tank
 	ATank* PlayerTank = nullptr;
+
+	//Acceptance radius to stop when moving to a player actor
+	UPROPERTY(EditAnywhere, Category = Pathfinding)
+	float AcceptanceRadius = 3000.f;
    
 };
 

@@ -11,7 +11,9 @@ UCLASS(meta=(BlueprintSpawnableComponent))
 class BATTLETANKS_API UTankMovementComponent : public UNavMovementComponent
 {
 	GENERATED_BODY()
-	
+
+	UTankTrack* LeftTrack = nullptr;
+	UTankTrack* RightTrack = nullptr;
 public:
 
 	//Function for setting tracks
@@ -26,8 +28,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void IntendTurnRight(float Throw);
 
-private:
-	UTankTrack* LeftTrack = nullptr;
-	UTankTrack* RightTrack = nullptr;
+protected:
+	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+	
 	
 };

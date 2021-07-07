@@ -23,4 +23,18 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 	// TODO prevent double-speed due to dual control use
+}
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	//AI tank's forward vector
+	FVector TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	//AI tank's movememnt intention (where it should move)
+	FVector AIForwardIntention = MoveVelocity.GetSafeNormal();
+
+	float ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+
+	IntendMoveForward(ForwardThrow);
+	
+	
 } 
