@@ -39,7 +39,7 @@ private:
 	ATank* PlayerTank = nullptr;
 
 	//Acceptance radius to stop when moving to a player actor
-	UPROPERTY(EditAnywhere, Category = Pathfinding)
+	UPROPERTY(EditAnywhere, Category = "Pathfinding")
 	float AcceptanceRadius = 3000.f;
    
 };
