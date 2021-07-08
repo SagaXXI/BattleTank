@@ -17,17 +17,6 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-
-/*// Called when the game starts
-void UTankAimingComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
-*/
-
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if(!Barrel) return;

@@ -48,7 +48,8 @@ private:
 	UTankBarrel* Barrel;
 
 protected:
-
+	
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* AimComp = nullptr;
 
 };

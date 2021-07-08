@@ -6,6 +6,14 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+//Enum for aiming state
+UENUM()
+enum class EFiringState : uint8
+{
+	Reloading,
+	Aiming,
+	Locked
+};
 
 class UTankBarrel;
 class UTankTurret;
@@ -15,6 +23,11 @@ class BATTLETANKS_API UTankAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+	UTankTurret* Turret;
+	UTankBarrel* Barrel;
+
+	void MoveBarrelTowards(FVector AimDirection);
+	
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
@@ -28,13 +41,8 @@ public:
 	void SetTurretComponent(UTankTurret* TurretToSet);
 
 protected:
-	// Called when the game starts
-	//virtual void BeginPlay() override;
-
-private:
-
-	UTankTurret* Turret;
-	UTankBarrel* Barrel;
-
-	void MoveBarrelTowards(FVector AimDirection);
+	
+	//Enum variable for aiming state. (To change color of crosshair at different situations
+	UPROPERTY(BlueprintReadOnly, Category = "Crosshair")
+	EFiringState FiringState = EFiringState::Reloading;
 };

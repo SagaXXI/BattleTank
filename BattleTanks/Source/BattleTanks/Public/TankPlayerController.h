@@ -24,6 +24,7 @@ public:
    
 private:
 
+   UFUNCTION(BlueprintCallable, Category = "Setup")
    ATank* GetControlledTank() const;
    
    //Returns true if we hit a landscape
