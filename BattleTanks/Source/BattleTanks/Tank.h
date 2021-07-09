@@ -22,16 +22,7 @@ public:
 	// Sets default values for this pawn's properties
 	ATank();
 	
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
 	void AimAt(FVector AimLocation);
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetBarrelComponent(UTankBarrel* BarrelToSet);
-	
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetTurretComponent(UTankTurret* TurretToSet);	
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
@@ -45,6 +36,7 @@ private:
 	TSubclassOf<AProjectile> ProjectileToSpawn;
 
 	//Pointer to barrel for spawning a projectile
+	UPROPERTY()
 	UTankBarrel* Barrel;
 
 protected:
