@@ -15,6 +15,28 @@ UCLASS()
 class BATTLETANKS_API ATankPlayerController : public APlayerController
 {
    GENERATED_BODY()
+   
+	//Returns true if we hit a landscape
+	bool GetSightRayHitLocation(FVector &OutHitLocation) const;
+
+	//Move the barrel to crosshair, like in World of Tanks. And it happens every frame.
+	void AimTowardsCrosshair();
+   
+	//Getting the direction, where we are looking. So, basically, this will project the direction vector through our screen to world
+	//Projecting camera view to world
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+
+	//Getting the location, where the trace, which is traced through our crosshair hits the world
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocation) const;
+   
+	UPROPERTY(EditAnywhere)
+	float CrosshairXLocation = 0.5f;
+   
+	UPROPERTY(EditAnywhere)
+	float CrosshairYLocation = 0.3333f;
+
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 1000000.f;
 
 public:
    
@@ -22,30 +44,12 @@ public:
    
    void Tick(float DeltaTime) override;
    
-private:
+protected:
+	
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	ATank* GetControlledTank() const;
+	
+	/*UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void FindAndSetAimComp(UTankAimingComponent * AimingComponent);*/
 
-   UFUNCTION(BlueprintCallable, Category = "Setup")
-   ATank* GetControlledTank() const;
-   
-   //Returns true if we hit a landscape
-   bool GetSightRayHitLocation(FVector &OutHitLocation) const;
-
-   //Move the barrel to crosshair, like in World of Tanks. And it happens every frame.
-   void AimTowardsCrosshair();
-   
-   //Getting the direction, where we are looking. So, basically, this will project the direction vector through our screen to world
-   //Projecting camera view to world
-   bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
-
-   //Getting the location, where the trace, which is traced through our crosshair hits the world
-   bool GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocation) const;
-   
-   UPROPERTY(EditAnywhere)
-   float CrosshairXLocation = 0.5f;
-   
-   UPROPERTY(EditAnywhere)
-   float CrosshairYLocation = 0.3333f;
-
-   UPROPERTY(EditAnywhere)
-   float LineTraceRange = 1000000.f;
 };

@@ -19,8 +19,8 @@ UTankAimingComponent::UTankAimingComponent()
         
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if(!Barrel) return;
-	if(!Turret) return;
+	if(!ensure(Barrel)) return;
+	if(!ensure(Turret))return;
 	
 	//Velocity, that will be set
 	FVector OutLaunchVelocity;
@@ -61,7 +61,7 @@ void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* Tur
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	if(!Barrel || !Turret) return;
+	if (ensure(!Barrel || !Turret)) return;
 	//Getting delta rotator between barrel forward vector and aim direction, turret forward vector and aim direction,
 	//because to rotate them, we need delta vector, like in FindLookAtLocation()
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();

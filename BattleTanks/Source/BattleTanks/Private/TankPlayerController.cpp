@@ -2,6 +2,7 @@
 
 #include "BattleTanks/Tank.h"
 #include "TankPlayerController.h"
+#include "TankAimingComponent.h"
 
 
 void ATankPlayerController::BeginPlay()
@@ -9,15 +10,15 @@ void ATankPlayerController::BeginPlay()
    PrimaryActorTick.bCanEverTick = true;
    PrimaryActorTick.bStartWithTickEnabled = true;
    
-   auto ControlledTank = GetControlledTank();
-   if(!ControlledTank)
+   /*auto AimComp = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+   if(AimComp)
    {
-      UE_LOG(LogTemp, Error, TEXT("This PlayerController currently is not possesing any pawn!"));
+      FindAndSetAimComp(AimComp);
    }
    else
    {
-      UE_LOG(LogTemp, Warning, TEXT("This PlayerController is possesing: %s"), *ControlledTank->GetName());
-   }
+      UE_LOG(LogTemp, Warning, TEXT("Player controller can't find aiming component at Begin Play"))
+   }*/
 }
 
 // Called every frame
@@ -35,7 +36,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-   if(!GetControlledTank()) return;
+   if (!ensure(GetControlledTank())) return;
    
    //This is OUTPARAMETER 
    FVector HitLocation;

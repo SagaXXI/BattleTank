@@ -44,5 +44,5 @@ protected:
 	
 	//Enum variable for aiming state. (To change color of crosshair at different situations
 	UPROPERTY(BlueprintReadOnly, Category = "Crosshair")
-	EFiringState FiringState = EFiringState::Reloading;
+	EFiringState FiringState = EFiringState::Locked;
 };

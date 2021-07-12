@@ -5,6 +5,9 @@
 #include "Projectile.h"
 #include "TankMovementComponent.h"
 
+//TODO make a reloading system with firing delay
+//Fix the AimComp pointer in Tank class
+//Delete the BPImplementable event in TankPlayerController if it doesn't needed
 
 //Sets default values
 ATank::ATank()
@@ -15,19 +18,20 @@ ATank::ATank()
 
 void ATank::AimAt(FVector AimLocation)
 {
+	if(!ensure(AimComp)) return;
 	AimComp->AimAt(AimLocation, LaunchSpeed);
 }
 
 
 void ATank::Fire()
 {
-	//TODO make a reloading system with firing delay
-	if(!Barrel) return;
+
+	if(!ensure(Barrel)) return;
 
 	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileToSpawn, Barrel->GetSocketLocation(FName("Projectile")),
 		Barrel->GetSocketRotation(FName("Projectile")));
 
-	if(Projectile)
+	if(ensure(Projectile))
 	{
 		Projectile->LaunchProjectile(LaunchSpeed);
 	}

@@ -29,7 +29,7 @@ void ATankAIController::Tick(float DeltaTime)
    //Checking if AI tank is reloaded
    bool IsReloaded = (GetWorld()->GetTimeSeconds() - LastTimeFired) >= ReloadDelay;
 
-   if(PlayerTank && ControlledTank)
+   if(ensure(PlayerTank && ControlledTank))
    {
       MoveToActor(PlayerTank, AcceptanceRadius);
       ControlledTank->AimAt(PlayerTank->GetActorLocation());
