@@ -9,16 +9,8 @@ void ATankPlayerController::BeginPlay()
 {
    PrimaryActorTick.bCanEverTick = true;
    PrimaryActorTick.bStartWithTickEnabled = true;
-   
-   /*auto AimComp = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-   if(AimComp)
-   {
-      FindAndSetAimComp(AimComp);
-   }
-   else
-   {
-      UE_LOG(LogTemp, Warning, TEXT("Player controller can't find aiming component at Begin Play"))
-   }*/
+
+   AimCompRef = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 }
 
 // Called every frame
@@ -26,17 +18,11 @@ void ATankPlayerController::Tick(float DeltaTime)
 {
    Super::Tick(DeltaTime);
    AimTowardsCrosshair();
-
-}
-
-ATank* ATankPlayerController::GetControlledTank() const
-{
-   return Cast<ATank>(GetPawn());
 }
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-   if (!ensure(GetControlledTank())) return;
+   if (!AimCompRef) return;
    
    //This is OUTPARAMETER 
    FVector HitLocation;
@@ -44,8 +30,7 @@ void ATankPlayerController::AimTowardsCrosshair()
    //If ray which we are tracing hits something, then we are going to turn the turret and elevate the tank barrel
    if(GetSightRayHitLocation(OUT HitLocation))
    {
-      GetControlledTank()->AimAt(HitLocation);
-      //UE_LOG(LogTemp, Warning, TEXT("The hit location is: %s"), *HitLocation.ToString())
+      AimCompRef->AimAt(HitLocation);
    }
 }
 

@@ -7,15 +7,19 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
-class ATank;
 /**
  * 
  */
+class UTankAimingComponent;
+
 UCLASS()
 class BATTLETANKS_API ATankPlayerController : public APlayerController
 {
    GENERATED_BODY()
-   
+
+	//Reference to aiming component for aiming towards crosshair
+	UTankAimingComponent* AimCompRef;
+	
 	//Returns true if we hit a landscape
 	bool GetSightRayHitLocation(FVector &OutHitLocation) const;
 
@@ -43,13 +47,5 @@ public:
    void BeginPlay() override;
    
    void Tick(float DeltaTime) override;
-   
-protected:
-	
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
-	
-	/*UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
-	void FindAndSetAimComp(UTankAimingComponent * AimingComponent);*/
 
 };

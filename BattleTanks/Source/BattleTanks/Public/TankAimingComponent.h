@@ -17,8 +17,9 @@ enum class EFiringState : uint8
 
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANKS_API UTankAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -31,14 +32,27 @@ class BATTLETANKS_API UTankAimingComponent : public UActorComponent
 
 	void MoveBarrelTowards(FVector AimDirection);
 	
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+	TSubclassOf<AProjectile> ProjectileToSpawn;
+
+	//Launching speed for projectile and to calculate trajectory
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+	float LaunchSpeed = 4000.f;
+	
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	void AimAt(FVector HitLocation, float LaunchSpeed);
-	
+	//Used to move barrel and turret (for aiming)
+	void AimAt(FVector HitLocation);
+
+	//Initialising all pointers and variables that we need in BP
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
+	//Function for firing on tank
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void Fire();
 
 protected:
 	

@@ -3,20 +3,20 @@
 #include "TankAIController.h"
 #include "BattleTanks/Tank.h"
 #include "Kismet/GameplayStatics.h"
+#include "TankAimingComponent.h"
 
 ATankAIController::ATankAIController()
 {
    // Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
    PrimaryActorTick.bCanEverTick = true;
    PrimaryActorTick.bStartWithTickEnabled = true;
-   
 }
 
 void ATankAIController::BeginPlay()
 {
    Super::BeginPlay();
-   //Getting controlled tank by this AI controller
-   ControlledTank = Cast<ATank>(GetPawn());
+   //Getting Aiming Component
+   AimCompRef = GetPawn()->FindComponentByClass<UTankAimingComponent>();
    //Getting player's tank
    PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
@@ -29,14 +29,14 @@ void ATankAIController::Tick(float DeltaTime)
    //Checking if AI tank is reloaded
    bool IsReloaded = (GetWorld()->GetTimeSeconds() - LastTimeFired) >= ReloadDelay;
 
-   if(ensure(PlayerTank && ControlledTank))
+   if(ensure(PlayerTank && AimCompRef))
    {
       MoveToActor(PlayerTank, AcceptanceRadius);
-      ControlledTank->AimAt(PlayerTank->GetActorLocation());
+      AimCompRef->AimAt(PlayerTank->GetActorLocation());
 
       if(IsReloaded)
       {
-         ControlledTank->Fire();
+         AimCompRef->Fire();
 
          //Last time AI tank fired
          LastTimeFired = GetWorld()->GetTimeSeconds();

@@ -7,6 +7,7 @@
 #include "TankAIController.generated.h"
 
 class ATank;
+class UTankAimingComponent;
 /**
  * 
  */
@@ -14,17 +15,7 @@ UCLASS()
 class BATTLETANKS_API ATankAIController : public AAIController
 {
    GENERATED_BODY()
-
-public:
-
-   virtual void BeginPlay() override;
-
-   virtual void Tick(float DeltaTime) override;
-   
-   ATankAIController();
 	
-private:
-
 	//Reloading mechanics
 	//Reloading delay for tank
 	UPROPERTY(EditAnywhere)
@@ -33,14 +24,22 @@ private:
 	//When AI tank fired last time
 	float LastTimeFired = 0.f;
 	
-	//Getting controlled tank by this AI controller
-	ATank* ControlledTank = nullptr;
 	//Getting player's tank
 	ATank* PlayerTank = nullptr;
 
 	//Acceptance radius to stop when moving to a player actor
 	UPROPERTY(EditAnywhere, Category = "Pathfinding")
 	float AcceptanceRadius = 3000.f;
+
+	//Reference to aiming component for AimAt method
+	UTankAimingComponent* AimCompRef;
+	
+public:
+
+   void BeginPlay() override;
+
+   void Tick(float DeltaTime) override;
    
+   ATankAIController();
 };
 

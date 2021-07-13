@@ -12,14 +12,14 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* 
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	if (ensure(!LeftTrack || !RightTrack)) return;
+	if (!LeftTrack || !RightTrack) return;
 	RightTrack->SetThrottle(Throw);
 	LeftTrack->SetThrottle(Throw);
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw)
 {
-	if (ensure(!LeftTrack || !RightTrack)) return;
+	if (!LeftTrack || !RightTrack) return;
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 }
@@ -40,8 +40,5 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	//both given vectors, and find the Z vector of it, because cross product returns fvector
 	float RightThrow = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
 	IntendTurnRight(RightThrow);
-	
-	
-	UE_LOG(LogTemp, Warning, TEXT("Forward %f, Right %f"), ForwardThrow, RightThrow);
-	
+		
 } 
