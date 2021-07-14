@@ -26,10 +26,26 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	FActorComponentTickFunction* ThisTickFunction)
 {
-	if((GetWorld()->GetTimeSeconds() - LastTimeFired) > ReloadDelay)
+	if((GetWorld()->GetTimeSeconds() - LastTimeFired) < ReloadDelay)
 	{
 		FiringState = EFiringState::Reloading;
 	}
+	else if (IsBarrelMoving())
+	{
+		FiringState = EFiringState::Aiming;
+	}
+	else
+	{
+		FiringState = EFiringState::Locked;
+	}
+}
+
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel)) { return false; }
+	auto BarrelForward = Barrel->GetForwardVector();
+	//Here is not logic action (!), because if two vectors (forward vector and aim direction) are equal, then barrel is staying at one place and doesn't moving
+	return !BarrelForward.Equals(AimDirection, 0.01); 
 }
 
 void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
@@ -64,7 +80,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	if(bHasAimSolution)
 	{
 		//Turns this OutLaunchVelocity vector to a normal vector (a unit vector, that equals to 1 with direction)
-		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	}
 	
@@ -90,7 +106,7 @@ void UTankAimingComponent::Fire()
 
 
 
-void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+void UTankAimingComponent::MoveBarrelTowards(FVector AimingDirection)
 {
 	if (ensure(!Barrel || !Turret)) return;
 	//Getting delta rotator between barrel forward vector and aim direction, turret forward vector and aim direction,

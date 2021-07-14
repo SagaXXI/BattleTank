@@ -30,7 +30,7 @@ class BATTLETANKS_API UTankAimingComponent : public UActorComponent
 	UPROPERTY()
 	UTankBarrel* Barrel;
 
-	void MoveBarrelTowards(FVector AimDirection);
+	void MoveBarrelTowards(FVector AimingDirection);
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 	TSubclassOf<AProjectile> ProjectileToSpawn;
@@ -46,6 +46,11 @@ class BATTLETANKS_API UTankAimingComponent : public UActorComponent
 
 	//When tank fired last time
 	float LastTimeFired = 0.f;
+
+	FVector AimDirection;
+
+	//Method for changing crosshair color mechanics
+	bool IsBarrelMoving();
 	
 public:	
 	// Sets default values for this component's properties
