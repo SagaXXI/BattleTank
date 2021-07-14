@@ -38,6 +38,14 @@ class BATTLETANKS_API UTankAimingComponent : public UActorComponent
 	//Launching speed for projectile and to calculate trajectory
 	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
 	float LaunchSpeed = 4000.f;
+
+	//Reloading mechanics
+	//Reloading delay for tank
+	UPROPERTY(EditAnywhere)
+	float ReloadDelay = 3.f;
+
+	//When tank fired last time
+	float LastTimeFired = 0.f;
 	
 public:	
 	// Sets default values for this component's properties
@@ -54,9 +62,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
+
+	virtual void BeginPlay() override;
+
 protected:
 	
 	//Enum variable for aiming state. (To change color of crosshair at different situations
 	UPROPERTY(BlueprintReadOnly, Category = "Crosshair")
-	EFiringState FiringState = EFiringState::Locked;
+	EFiringState FiringState = EFiringState::Reloading;
 };

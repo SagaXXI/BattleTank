@@ -17,6 +17,27 @@ UTankAimingComponent::UTankAimingComponent()
 
 	// ...
 }
+
+void UTankAimingComponent::BeginPlay()
+{
+	LastTimeFired = GetWorld()->GetTimeSeconds();
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType,
+	FActorComponentTickFunction* ThisTickFunction)
+{
+	if((GetWorld()->GetTimeSeconds() - LastTimeFired) > ReloadDelay)
+	{
+		FiringState = EFiringState::Reloading;
+	}
+}
+
+void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
+{
+	Barrel = BarrelToSet;
+	Turret = TurretToSet;
+}
+
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if(!ensure(Barrel)) return;
@@ -51,22 +72,23 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 void UTankAimingComponent::Fire()
 {
-	if(!ensure(Barrel)) return;
-
-	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileToSpawn, Barrel->GetSocketLocation(FName("Projectile")),
+	if(FiringState != EFiringState::Reloading)
+	{
+		if(!ensure(Barrel)) return;
+		if(!ensure(ProjectileToSpawn)) return;
+		
+		//Spawning projectile
+		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileToSpawn, Barrel->GetSocketLocation(FName("Projectile")),
 		Barrel->GetSocketRotation(FName("Projectile")));
 
-	if(Projectile)
-	{
+		//Giving a launchspeed to projectile
 		Projectile->LaunchProjectile(LaunchSpeed);
+		//Saving last fired time for reloading
+		LastTimeFired = GetWorld()->GetTimeSeconds();
 	}
 }
 
-void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
-{
-	Barrel = BarrelToSet;
-	Turret = TurretToSet;
-}
+
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
