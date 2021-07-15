@@ -17,13 +17,21 @@ class BATTLETANKS_API UTankTrack : public UStaticMeshComponent
 	//Max force to apply for tracks to move (in Newtons (mass * acceleration))
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	float TankMaxDrivingForce = 400000.f;
-	
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	void DriveTrack();
+
+	float CurrentThrottle = 0;
+
 public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void SetThrottle(float Throttle);
-	
-	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
-	
+
+	//Force to correct the slippage (friction)
+	void ApplyCorrectionForce();
+
+	UTankTrack();
 
 
 	
