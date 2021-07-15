@@ -12,20 +12,22 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
-	PrimaryComponentTick.bStartWithTickEnabled = false;
+	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bStartWithTickEnabled = true;
 
 	// ...
 }
 
 void UTankAimingComponent::BeginPlay()
 {
+	Super::BeginPlay();
 	LastTimeFired = GetWorld()->GetTimeSeconds();
 }
 
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	FActorComponentTickFunction* ThisTickFunction)
 {
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	if((GetWorld()->GetTimeSeconds() - LastTimeFired) < ReloadDelay)
 	{
 		FiringState = EFiringState::Reloading;
@@ -43,7 +45,10 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }
-	auto BarrelForward = Barrel->GetForwardVector();
+	FVector BarrelForward = Barrel->GetForwardVector();
+	//Check against another vector for equality, within specified error limits.
+	//FVectors are structs that contain floats in it, so when we are comparing floats, we can't just say that they are equal, it depends on value after floating point.
+	//This is why we specified a tolerance (limit) to compare them.
 	//Here is not logic action (!), because if two vectors (forward vector and aim direction) are equal, then barrel is staying at one place and doesn't moving
 	return !BarrelForward.Equals(AimDirection, 0.01); 
 }
