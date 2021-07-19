@@ -25,21 +25,17 @@ void ATankAIController::Tick(float DeltaTime)
 {
    Super::Tick(DeltaTime);
    //Don't know why we are doing it in tick, but in course it was like this. Maybe change it or smth.
- 
-   //Checking if AI tank is reloaded
-   bool IsReloaded = (GetWorld()->GetTimeSeconds() - LastTimeFired) >= ReloadDelay;
 
    if(ensure(PlayerTank && AimCompRef))
    {
       MoveToActor(PlayerTank, AcceptanceRadius);
       AimCompRef->AimAt(PlayerTank->GetActorLocation());
 
-      if(IsReloaded)
+      //TODO remove the firing limit mechanics
+      if(AimCompRef->GetFiringState() == EFiringState::Locked)
       {
+         
          AimCompRef->Fire();
-
-         //Last time AI tank fired
-         LastTimeFired = GetWorld()->GetTimeSeconds();
       }
    }
 }

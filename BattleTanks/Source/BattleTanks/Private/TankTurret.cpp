@@ -6,13 +6,11 @@
 
 void UTankTurret::Rotate(float RelativeSpeed)
 {
-	float Time = GetWorld()->GetTimeSeconds();
-	
 	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, 1);
 	
 	//This is where we calculate our elevation from the position before.
 	//(DeltaTimeSeconds is for delay between frames, to avoid the slower or faster function running on different machines)
-	float RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
+	float RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->GetDeltaSeconds();
 	
 	//Raw elevation, which is not clamped yet
 	float Rotation = GetRelativeRotation().Yaw + RotationChange;

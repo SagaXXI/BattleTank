@@ -15,20 +15,25 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = true;
 
-	// ...
 }
 
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	LastTimeFired = GetWorld()->GetTimeSeconds();
+
+	Ammo = MaxAmmo;
 }
 
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType,
-	FActorComponentTickFunction* ThisTickFunction)
+                                         FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if((GetWorld()->GetTimeSeconds() - LastTimeFired) < ReloadDelay)
+	if (Ammo <= 0)
+	{
+		FiringState = EFiringState::NoAmmo;
+	}
+	else if((GetWorld()->GetTimeSeconds() - LastTimeFired) < ReloadDelay)
 	{
 		FiringState = EFiringState::Reloading;
 	}
@@ -36,6 +41,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	{
 		FiringState = EFiringState::Aiming;
 	}
+	
 	else
 	{
 		FiringState = EFiringState::Locked;
@@ -93,7 +99,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 void UTankAimingComponent::Fire()
 {
-	if(FiringState != EFiringState::Reloading)
+	if(FiringState == EFiringState::Aiming || FiringState == EFiringState::Locked)
 	{
 		if(!ensure(Barrel)) return;
 		if(!ensure(ProjectileToSpawn)) return;
@@ -104,16 +110,15 @@ void UTankAimingComponent::Fire()
 
 		//Giving a launchspeed to projectile
 		Projectile->LaunchProjectile(LaunchSpeed);
+		Ammo--;
 		//Saving last fired time for reloading
 		LastTimeFired = GetWorld()->GetTimeSeconds();
 	}
 }
 
-
-
 void UTankAimingComponent::MoveBarrelTowards(FVector AimingDirection)
 {
-	if (ensure(!Barrel || !Turret)) return;
+	if (!ensure(Barrel && Turret)) return;
 	//Getting delta rotator between barrel forward vector and aim direction, turret forward vector and aim direction,
 	//because to rotate them, we need delta vector, like in FindLookAtLocation()
 	FRotator BarrelRotation = Barrel->GetForwardVector().Rotation();
@@ -138,4 +143,14 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimingDirection)
 	//If yaw has minus value, speed will be -1
 	//If yaw has plus value, speed will be +1
 	Barrel->Elevate(DeltaRotation.Pitch);
+}
+
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
+int32 UTankAimingComponent::GetCurrentAmmo() const
+{
+	return Ammo;
 }

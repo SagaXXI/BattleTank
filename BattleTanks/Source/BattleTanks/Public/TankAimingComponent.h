@@ -12,7 +12,8 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	NoAmmo
 };
 
 class UTankBarrel;
@@ -44,6 +45,8 @@ class BATTLETANKS_API UTankAimingComponent : public UActorComponent
 	UPROPERTY(EditAnywhere)
 	float ReloadDelay = 3.f;
 
+	int32 Ammo;
+
 	//When tank fired last time
 	float LastTimeFired = 0.f;
 
@@ -51,6 +54,7 @@ class BATTLETANKS_API UTankAimingComponent : public UActorComponent
 
 	//Method for changing crosshair color mechanics
 	bool IsBarrelMoving();
+	
 	
 public:	
 	// Sets default values for this component's properties
@@ -70,6 +74,16 @@ public:
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 	virtual void BeginPlay() override;
+
+	EFiringState GetFiringState() const;
+
+	//Reloading mechanics
+	UPROPERTY(EditAnywhere, Category = "Reload")
+	int32 MaxAmmo = 3;
+
+	//Gets current ammo for UI
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	int32 GetCurrentAmmo() const;
 
 protected:
 	

@@ -27,6 +27,9 @@ void ATankPlayerController::AimTowardsCrosshair()
    FVector HitLocation;
 
    //If ray which we are tracing hits something, then we are going to turn the turret and elevate the tank barrel
+   //bool bGotHitLocation = GetSightRayHitLocation(OUT HitLocation);
+   //UE_LOG(LogTemp, Warning, TEXT("%i"), bGotHitLocation)
+   //if(bGotHitLocation)
    if(GetSightRayHitLocation(OUT HitLocation))
    {
       AimCompRef->AimAt(HitLocation);
@@ -50,12 +53,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector OUT &HitLocation) con
    if(GetLookDirection(ScreenLocation, OUT LookDirection))
    {
       //Doing line trace and getting hit location
-      if(GetLookVectorHitLocation(LookDirection, OUT HitLocation))
-      {
-         //UE_LOG(LogTemp, Warning, TEXT("Your crosshair is pointing to %s in world"), *HitLocation.ToString());
-      }
+      return GetLookVectorHitLocation(LookDirection, OUT HitLocation);
+    
    }
-   return true;
+   return false;
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
