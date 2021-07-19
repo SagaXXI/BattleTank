@@ -16,7 +16,7 @@ void UTankTurret::Rotate(float RelativeSpeed)
 	float Rotation = GetRelativeRotation().Yaw + RotationChange;
 	
 	//Sets the rotation of the component relative to its parent
-	SetWorldRotation(FRotator(0, Rotation, 0));
+	SetRelativeRotation(FRotator(0, Rotation, 0));
 }
 
 
