@@ -3,6 +3,8 @@
 
 #include "Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Particles/ParticleSystemComponent.h"
+
 
 // Sets default values
 AProjectile::AProjectile()
@@ -14,6 +16,19 @@ AProjectile::AProjectile()
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Movement"));
 	ProjectileMovement->bAutoActivate = false;
 
+	//Static mesh that will work like a static mesh idk why
+	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	SetRootComponent(CollisionMesh);
+	CollisionMesh->SetNotifyRigidBodyCollision(true);
+	CollisionMesh->SetVisibility(false);
+	
+	//Creating particle system comp
+	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Launch Blast"));
+	LaunchBlast->SetupAttachment(CollisionMesh);
+	AttachToComponent()
+
+
+
 }
 
 // Called when the game starts or when spawned
@@ -22,7 +37,6 @@ void AProjectile::BeginPlay()
 	Super::BeginPlay();
 	
 }
-
 
 void AProjectile::LaunchProjectile(float Speed)
 {
