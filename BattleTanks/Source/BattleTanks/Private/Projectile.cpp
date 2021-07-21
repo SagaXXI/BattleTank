@@ -6,6 +6,7 @@
 #include "Particles/ParticleSystemComponent.h"
 
 
+
 // Sets default values
 AProjectile::AProjectile()
 {
@@ -25,9 +26,12 @@ AProjectile::AProjectile()
 	//Creating particle system comp
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Launch Blast"));
 	LaunchBlast->SetupAttachment(CollisionMesh);
-	AttachToComponent()
 
+	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ImpactBlast"));
+	ImpactBlast->bAutoActivate = false;
+	ImpactBlast->SetupAttachment(CollisionMesh);
 
+	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 
 }
 
@@ -36,6 +40,13 @@ void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	FVector NormalImpulse, const FHitResult& Hit)
+{
+	LaunchBlast->Deactivate();
+	ImpactBlast->Activate();
 }
 
 void AProjectile::LaunchProjectile(float Speed)

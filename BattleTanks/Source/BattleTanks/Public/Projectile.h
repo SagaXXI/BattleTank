@@ -14,6 +14,21 @@ UCLASS()
 class BATTLETANKS_API AProjectile : public AActor
 {
 	GENERATED_BODY()
+
+	UProjectileMovementComponent* ProjectileMovement = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Particles")
+	UParticleSystemComponent* LaunchBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Particles")
+	UParticleSystemComponent* ImpactBlast = nullptr;
+	
+	UPROPERTY(VisibleAnywhere, Category = "Mesh")
+	UStaticMeshComponent* CollisionMesh = nullptr;
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	FVector NormalImpulse, const FHitResult& Hit);
 	
 public:	
 	// Sets default values for this actor's properties
@@ -24,15 +39,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-private:
-	UProjectileMovementComponent* ProjectileMovement;
-
-	UPROPERTY(VisibleAnywhere, Category = "Particles")
-	UParticleSystemComponent* LaunchBlast;
-	
-	UPROPERTY(VisibleAnywhere, Category = "Mesh")
-	UStaticMeshComponent* CollisionMesh;
 	
 
 };
