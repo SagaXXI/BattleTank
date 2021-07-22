@@ -50,6 +50,21 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	if (!ensure(LaunchBlast && ImpactBlast)) return;
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
+	ExplosionForce->FireImpulse();
+
+	//We can't just destroy the root component, so we are just reasigning it to other component to destroy it
+	SetRootComponent(ImpactBlast);
+	CollisionMesh->DestroyComponent();
+
+	//Actual projectile destroy timer
+	FTimerHandle ProjectileDestroy;
+
+	GetWorld()->GetTimerManager().SetTimer(ProjectileDestroy, this, &AProjectile::OnTimerExpire, DestroyDelay, false);
+}
+
+void AProjectile::OnTimerExpire()
+{
+	Destroy();
 }
 
 void AProjectile::LaunchProjectile(float Speed)
