@@ -28,10 +28,11 @@ AProjectile::AProjectile()
 	LaunchBlast->SetupAttachment(CollisionMesh);
 
 	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ImpactBlast"));
-	ImpactBlast->bAutoActivate = false;
 	ImpactBlast->SetupAttachment(CollisionMesh);
+	ImpactBlast->bAutoActivate = false;
+	
 
-	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+
 
 }
 
@@ -39,12 +40,15 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+
+	CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 	
 }
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	FVector NormalImpulse, const FHitResult& Hit)
 {
+	UE_LOG(LogTemp, Warning, TEXT("GOFOVOF"))
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 }
