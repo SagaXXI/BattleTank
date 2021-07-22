@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "PhysicsEngine/RadialForceComponent.h"
+
 #include "Projectile.generated.h"
 
 class UProjectileMovementComponent;
@@ -20,11 +22,14 @@ class BATTLETANKS_API AProjectile : public AActor
 	UPROPERTY(VisibleAnywhere, Category = "Particles")
 	UParticleSystemComponent* LaunchBlast = nullptr;
 
-	UPROPERTY(VisibleAnywhere, Category = "Particles")
+	UPROPERTY(EditAnywhere, Category = "Particles")
 	UParticleSystemComponent* ImpactBlast = nullptr;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Mesh")
 	UStaticMeshComponent* CollisionMesh = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Explosion")
+	URadialForceComponent* ExplosionForce = nullptr;
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,

@@ -6,7 +6,6 @@
 #include "Particles/ParticleSystemComponent.h"
 
 
-
 // Sets default values
 AProjectile::AProjectile()
 {
@@ -27,12 +26,12 @@ AProjectile::AProjectile()
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Launch Blast"));
 	LaunchBlast->SetupAttachment(CollisionMesh);
 
-	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ImpactBlast"));
+	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Impact Blast"));
 	ImpactBlast->SetupAttachment(CollisionMesh);
 	ImpactBlast->bAutoActivate = false;
-	
 
-
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(TEXT("Explosion Force"));
+	ExplosionForce->SetupAttachment(CollisionMesh);
 
 }
 
@@ -48,7 +47,7 @@ void AProjectile::BeginPlay()
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("GOFOVOF"))
+	if (!ensure(LaunchBlast && ImpactBlast)) return;
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 }
