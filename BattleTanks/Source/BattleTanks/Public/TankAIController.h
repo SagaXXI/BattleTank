@@ -28,10 +28,17 @@ class BATTLETANKS_API ATankAIController : public AAIController
 	
 public:
 
-   void BeginPlay() override;
+	void BeginPlay() override;
 
-   void Tick(float DeltaTime) override;
-   
-   ATankAIController();
+	//called when AI controller get posessed a tank
+	void SetPawn(APawn* InPawn) override;
+	
+	void Tick(float DeltaTime) override;
+
+	//Called when AI tank dies
+	UFUNCTION()
+	void OnPosessedTankDeath();
+	
+	ATankAIController();
 };
 

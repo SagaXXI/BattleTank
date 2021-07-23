@@ -21,6 +21,7 @@ void ATankAIController::BeginPlay()
    PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 
+
 void ATankAIController::Tick(float DeltaTime)
 {
    Super::Tick(DeltaTime);
@@ -34,9 +35,26 @@ void ATankAIController::Tick(float DeltaTime)
       //TODO remove the firing limit mechanics
       if(AimCompRef->GetFiringState() == EFiringState::Locked)
       {
-         
          AimCompRef->Fire();
       }
    }
 }
-      
+
+
+void ATankAIController::SetPawn(APawn* InPawn)
+{
+    Super::SetPawn(InPawn);
+    if(InPawn)
+    {
+       ATank* PosessedTank = Cast<ATank>(InPawn);
+       if(!ensure(PosessedTank)) return;
+
+       //Subscribe our local method to the tank's death event
+       PosessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPosessedTankDeath);
+    }
+}
+
+void ATankAIController::OnPosessedTankDeath()
+{
+   UE_LOG(LogTemp, Warning, TEXT("Received!"))
+}
