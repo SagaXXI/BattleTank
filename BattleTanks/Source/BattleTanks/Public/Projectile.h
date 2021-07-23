@@ -35,11 +35,14 @@ class BATTLETANKS_API AProjectile : public AActor
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	FVector NormalImpulse, const FHitResult& Hit);
 
+	//Destroy actor when timer expires
 	void OnTimerExpire();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float DestroyDelay = 10.f;
-	
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float ProjectileDamage = 20.f;
 public:	
 	// Sets default values for this actor's properties
 	AProjectile();
