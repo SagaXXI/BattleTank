@@ -40,12 +40,18 @@ class BATTLETANKS_API ATankPlayerController : public APlayerController
 	float CrosshairYLocation = 0.3333f;
 
 	UPROPERTY(EditAnywhere)
-	float LineTraceRange = 1000000.f;
+	float LineTraceRange = 1000000.f;\
+
 
 public:
    
    void BeginPlay() override;
    
    void Tick(float DeltaTime) override;
+
+   virtual void SetPawn(APawn* InPawn) override;
+
+   UFUNCTION()
+   void OnPlayerTankDeath();
 
 };

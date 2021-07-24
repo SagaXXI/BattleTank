@@ -17,8 +17,11 @@ class BATTLETANKS_API ATank : public APawn
 	float CurrentHealth = 0.f;
 
 public:
+	
 	// Sets default values for this pawn's properties
 	ATank();
+
+	virtual void BeginPlay() override;
 	
 	FTankDelegate OnDeath;
 	
@@ -30,6 +33,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Health")
 	float GetHealthPercentage();
+
+
+	
 
 	
 };

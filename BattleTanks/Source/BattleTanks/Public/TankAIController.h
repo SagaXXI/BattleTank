@@ -25,6 +25,8 @@ class BATTLETANKS_API ATankAIController : public AAIController
 
 	//Reference to aiming component for AimAt method
 	UTankAimingComponent* AimCompRef;
+
+	ATank* PosessedTank;
 	
 public:
 

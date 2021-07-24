@@ -2,12 +2,15 @@
 
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
+#include "BattleTanks/Tank.h"
+
 
 
 void ATankPlayerController::BeginPlay()
 {
    PrimaryActorTick.bCanEverTick = true;
    PrimaryActorTick.bStartWithTickEnabled = true;
+
 
    AimCompRef = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 }
@@ -17,6 +20,24 @@ void ATankPlayerController::Tick(float DeltaTime)
 {
    Super::Tick(DeltaTime);
    AimTowardsCrosshair();
+}
+
+void ATankPlayerController::SetPawn(APawn* InPawn)
+{
+   Super::SetPawn(InPawn);
+   if(InPawn)
+   {
+      ATank* PlayerTank = Cast<ATank>(InPawn);
+      if(!ensure(PlayerTank)) return;
+
+      //Subscribe our local method to the tank's death event
+      PlayerTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPlayerTankDeath);
+   }
+}
+
+void ATankPlayerController::OnPlayerTankDeath()
+{
+   StartSpectatingOnly();
 }
 
 void ATankPlayerController::AimTowardsCrosshair()
@@ -78,7 +99,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
       HitResult,
          StartLocation,
          EndLocation,
-         ECollisionChannel::ECC_Visibility)
+         ECollisionChannel::ECC_Camera)
          )
    {
       HitLocation = HitResult.Location;

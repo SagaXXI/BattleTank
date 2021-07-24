@@ -4,6 +4,7 @@
 #include "BattleTanks/Tank.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankAimingComponent.h"
+#include "GameFramework/Pawn.h"
 
 ATankAIController::ATankAIController()
 {
@@ -32,7 +33,6 @@ void ATankAIController::Tick(float DeltaTime)
       MoveToActor(PlayerTank, AcceptanceRadius);
       AimCompRef->AimAt(PlayerTank->GetActorLocation());
 
-      //TODO remove the firing limit mechanics
       if(AimCompRef->GetFiringState() == EFiringState::Locked)
       {
          AimCompRef->Fire();
@@ -46,7 +46,7 @@ void ATankAIController::SetPawn(APawn* InPawn)
     Super::SetPawn(InPawn);
     if(InPawn)
     {
-       ATank* PosessedTank = Cast<ATank>(InPawn);
+       PosessedTank = Cast<ATank>(InPawn);
        if(!ensure(PosessedTank)) return;
 
        //Subscribe our local method to the tank's death event
@@ -56,5 +56,6 @@ void ATankAIController::SetPawn(APawn* InPawn)
 
 void ATankAIController::OnPosessedTankDeath()
 {
-   UE_LOG(LogTemp, Warning, TEXT("Received!"))
+   PosessedTank->DetachFromControllerPendingDestroy();
 }
+
