@@ -7,20 +7,27 @@
 #include "SprungWheel.generated.h"
 
 class UPhysicsConstraintComponent;
+class USphereComponent;
 
 UCLASS()
 class BATTLETANKS_API ASprungWheel : public AActor
 {
 	GENERATED_BODY()
 	
+	UPROPERTY(EditAnywhere)
+	USphereComponent* Wheel = nullptr;
+
+	UPROPERTY(EditAnywhere)
+	USphereComponent* Axle = nullptr;
+	
 	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* Wheel= nullptr;
+	UPhysicsConstraintComponent* Suspension = nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
-	UPhysicsConstraintComponent* PhysicsConstraint = nullptr;
+	UPhysicsConstraintComponent* WheelAxle = nullptr;
 
 	//Setting up constraints
-	void SetupConstraint();
+	void SetupConstraints();
 	
 public:	
 	// Sets default values for this actor's properties
