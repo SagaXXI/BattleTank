@@ -12,19 +12,20 @@ UCLASS()
 class BATTLETANKS_API ASprungWheel : public AActor
 {
 	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* Mass = nullptr;
 	
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* Wheel= nullptr;
 
 	UPROPERTY(EditDefaultsOnly)
 	UPhysicsConstraintComponent* PhysicsConstraint = nullptr;
+
+	//Setting up constraints
+	void SetupConstraint();
 	
 public:	
 	// Sets default values for this actor's properties
 	ASprungWheel();
+	
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

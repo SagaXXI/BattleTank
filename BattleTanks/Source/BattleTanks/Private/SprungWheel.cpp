@@ -3,6 +3,7 @@
 
 #include "SprungWheel.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
+#include "TankTrack.h"
 
 // Sets default values
 ASprungWheel::ASprungWheel()
@@ -10,16 +11,15 @@ ASprungWheel::ASprungWheel()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Mass = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mass"));
-	RootComponent = Mass;
+	PhysicsConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(TEXT("PhysicsConstraint"));
+	RootComponent = PhysicsConstraint;
+	
+	/*From the documents 52 of SetupAttachment():
+
+	“Generally intended to be called from its Owning Actor’s constructor and should be preferred over AttachToComponent when a component is not registered.”*/
 
 	Wheel = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Wheel"));
-	Wheel->SetupAttachment(Mass);
-
-	PhysicsConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(TEXT("PhysicsConstraint"));
-	PhysicsConstraint->SetupAttachment(Mass);
-	
-	
+	Wheel->SetupAttachment(PhysicsConstraint);
 
 }
 
@@ -27,6 +27,9 @@ ASprungWheel::ASprungWheel()
 void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	//Setting up constraints
+	SetupConstraint();
 	
 }
 
@@ -37,3 +40,13 @@ void ASprungWheel::Tick(float DeltaTime)
 
 }
 
+void ASprungWheel::SetupConstraint()
+{
+	//Getting Tank's Body comp for setting it to constraint comp
+	if (!GetAttachParentActor()) return;
+	UPrimitiveComponent* BodyRoot = Cast<UPrimitiveComponent>(GetAttachParentActor()->GetRootComponent());
+	
+	//Setting constraint comps
+	if (!BodyRoot) return;
+	PhysicsConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Wheel, NAME_None);
+}
