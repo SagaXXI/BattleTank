@@ -3,14 +3,13 @@
 
 #include "SprungWheel.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
-#include "TankTrack.h"
 #include "Components/SphereComponent.h"
 
 // Sets default values
 ASprungWheel::ASprungWheel()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	Suspension = CreateDefaultSubobject<UPhysicsConstraintComponent>(TEXT("Suspension"));
 	RootComponent = Suspension;
@@ -44,13 +43,6 @@ void ASprungWheel::BeginPlay()
 	
 }
 
-// Called every frame
-void ASprungWheel::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
 void ASprungWheel::SetupConstraints()
 {
 	//Getting Tank's Body comp for setting it to constraint comp
@@ -63,3 +55,8 @@ void ASprungWheel::SetupConstraints()
 	WheelAxle->SetConstrainedComponents(Axle, NAME_None, Wheel, NAME_None);
 	
 }
+
+void ASprungWheel::AddDrivingForce(float ForceMagnitude)
+{
+	Wheel->AddForce(Axle->GetForwardVector() * ForceMagnitude);
+} 

@@ -33,9 +33,8 @@ public:
 	// Sets default values for this actor's properties
 	ASprungWheel();
 	
-
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	//Applying force to wheel's axle (for movement)
+	void AddDrivingForce(float ForceMagnitude);
 
 protected:
 	// Called when the game starts or when spawned

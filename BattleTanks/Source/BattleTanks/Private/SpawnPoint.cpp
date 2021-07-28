@@ -26,12 +26,12 @@ void USpawnPoint::BeginPlay()
 
 	//We need to do it, because BeginPlay() in SprungWheel invokes first, than the spawning action.
 	//Spawns given class and returns class T pointer, forcibly sets world transform (note this allows scale as well).
-	AActor* NewActor = GetWorld()->SpawnActorDeferred<AActor>(ActorToSpawn, GetComponentTransform());
-	if(!NewActor) return;
-	NewActor->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
+	SpawnedActor = GetWorld()->SpawnActorDeferred<AActor>(ActorToSpawn, GetComponentTransform());
+	if(!SpawnedActor) return;
+	SpawnedActor->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
 	
 	//Called to finish the spawning process, generally in the case of deferred spawning
-	UGameplayStatics::FinishSpawningActor(NewActor, GetComponentTransform());
+	UGameplayStatics::FinishSpawningActor(SpawnedActor, GetComponentTransform());
 	
 	
 }

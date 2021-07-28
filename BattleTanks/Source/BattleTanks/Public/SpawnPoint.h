@@ -15,6 +15,8 @@ class BATTLETANKS_API USpawnPoint : public USceneComponent
 
 	UPROPERTY(EditDefaultsOnly, Category = "Spawn Spring")
 	TSubclassOf<AActor> ActorToSpawn;
+
+	AActor* SpawnedActor;
 	
 public:	
 	// Sets default values for this component's properties
@@ -23,11 +25,12 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	//Getter for spawned SprungWheel actor
+	AActor* GetSpawnedActor() const {return SpawnedActor;}
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
 
 
 		

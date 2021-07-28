@@ -18,18 +18,14 @@ class BATTLETANKS_API UTankTrack : public UStaticMeshComponent
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	float TankMaxDrivingForce = 400000.f;
 
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-	void DriveTrack();
+	void DriveTrack(float CurrentThrottle);
 
-	float CurrentThrottle = 0;
+	//Getter for SprungWheels on Tank
+	TArray <class ASprungWheel*> GetWheels() const;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void SetThrottle(float Throttle);
-
-	//Force to correct the slippage (friction)
-	void ApplyCorrectionForce();
 
 	UTankTrack();
 
