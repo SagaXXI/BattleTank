@@ -23,6 +23,7 @@ class BATTLETANKS_API UTankTrack : public UStaticMeshComponent
 	//Getter for SprungWheels on Tank
 	TArray <class ASprungWheel*> GetWheels() const;
 
+
 public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void SetThrottle(float Throttle);
