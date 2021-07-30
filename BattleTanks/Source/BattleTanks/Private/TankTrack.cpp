@@ -29,6 +29,7 @@ void UTankTrack::DriveTrack(float CurrentThrottle)
 	TArray<ASprungWheel*> Wheels = GetWheels();
 	//Calculating every wheel's force to apply
 	float ForcePerWheel = ForceToApply / Wheels.Num();
+	UE_LOG(LogTemp, Warning, TEXT("%f"), ForcePerWheel)
 	//Applying force on every wheel
 	for(auto Wheel : Wheels)
 	{

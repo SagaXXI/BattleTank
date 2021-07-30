@@ -28,8 +28,9 @@ class BATTLETANKS_API ASprungWheel : public AActor
 
 	//Setting up constraints
 	void SetupConstraints();
-
+	
 	//Used to stop applying force when wheel is not hit with the floor
+	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	//Variable which controls whether apply force or not
